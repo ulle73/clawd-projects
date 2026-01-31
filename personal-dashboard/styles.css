@@ -1,0 +1,7 @@
+body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:20px}
+.board{display:flex;gap:12px}
+.column{flex:1;background:#f4f6f8;padding:8px;border-radius:6px}
+.cards{min-height:120px}
+.card{background:white;padding:8px;margin:8px 0;border-radius:4px;cursor:grab}
+.add-card{margin-top:8px}
+#recipes-list .recipe{border:1px solid #ddd;padding:8px;margin:8px 0}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Personal Dashboard (MVP)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Personal Dashboard (MVP)</h1>
+    <p>Kanban, AI Jobs, Projects, Leads (frontend-only, local)</p>
+  </header>
+  <main>
+    <section id="kanban">
+      <h2>Kanban</h2>
+      <div class="board">
+        <div class="column" data-col="todo"><h3>To Do</h3><div class="cards" id="todo"></div></div>
+        <div class="column" data-col="doing"><h3>Doing</h3><div class="cards" id="doing"></div></div>
+        <div class="column" data-col="done"><h3>Done</h3><div class="cards" id="done"></div></div>
+      </div>
+      <div class="add-card"><input id="new-card" placeholder="New task"><button id="add">Add</button></div>
+    </section>
+    <section id="ai-jobs">
+      <h2>AI Jobs</h2>
+      <ul id="jobs"></ul>
+      <button id="add-job">Add placeholder job</button>
+    </section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <ul id="projects-list"></ul>
+    </section>
+    <section id="recipes">
+      <h2>Dagens recept</h2>
+      <div id="recipes-list"></div>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>
