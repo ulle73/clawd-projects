@@ -3,38 +3,59 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Personal Dashboard (MVP)</title>
+  <title>Personal Dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Personal Dashboard (MVP)</h1>
-    <p>Kanban, AI Jobs, Projects, Leads (frontend-only, local)</p>
-  </header>
-  <main>
-    <section id="kanban">
-      <h2>Kanban</h2>
-      <div class="board">
-        <div class="column" data-col="todo"><h3>To Do</h3><div class="cards" id="todo"></div></div>
-        <div class="column" data-col="doing"><h3>Doing</h3><div class="cards" id="doing"></div></div>
-        <div class="column" data-col="done"><h3>Done</h3><div class="cards" id="done"></div></div>
+  <div class="container">
+    <header>
+      <h1>Mitt Dashboard</h1>
+      <p>Håll dig i arbete. Utveckla idéer. Ät bra mat.</p>
+    </header>
+    <main>
+      <div class="left-col">
+        <section id="kanban">
+          <h2>Kanban</h2>
+          <div class="board">
+            <div class="column">
+              <h3>To Do</h3>
+              <div class="cards" id="todo" ondragover="event.preventDefault()"></div>
+            </div>
+            <div class="column">
+              <h3>Doing</h3>
+              <div class="cards" id="doing" ondragover="event.preventDefault()"></div>
+            </div>
+            <div class="column">
+              <h3>Done</h3>
+              <div class="cards" id="done" ondragover="event.preventDefault()"></div>
+            </div>
+          </div>
+          <div class="add-card">
+            <input id="new-card" placeholder="Ny uppgift...">
+            <button id="add">Lägg till</button>
+          </div>
+        </section>
+
+        <section id="ai-jobs">
+          <h2>Projektidéer & Möjligheter</h2>
+          <ul id="jobs"></ul>
+          <button id="add-job">Lägg till idé</button>
+        </section>
       </div>
-      <div class="add-card"><input id="new-card" placeholder="New task"><button id="add">Add</button></div>
-    </section>
-    <section id="ai-jobs">
-      <h2>AI Jobs</h2>
-      <ul id="jobs"></ul>
-      <button id="add-job">Add placeholder job</button>
-    </section>
-    <section id="projects">
-      <h2>Projects</h2>
-      <ul id="projects-list"></ul>
-    </section>
-    <section id="recipes">
-      <h2>Dagens recept</h2>
-      <div id="recipes-list"></div>
-    </section>
-  </main>
+
+      <div class="right-col">
+        <section id="recipes">
+          <h2>Dagens mat-tips</h2>
+          <div id="recipes-list"></div>
+        </section>
+
+        <section id="projects">
+          <h2>Aktiva Projekt</h2>
+          <ul id="projects-list"></ul>
+        </section>
+      </div>
+    </main>
+  </div>
   <script src="main.js"></script>
 </body>
 </html>
