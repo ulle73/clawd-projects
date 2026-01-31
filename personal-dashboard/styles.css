@@ -1,7 +1,245 @@
-body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:20px}
-.board{display:flex;gap:12px}
-.column{flex:1;background:#f4f6f8;padding:8px;border-radius:6px}
-.cards{min-height:120px}
-.card{background:white;padding:8px;margin:8px 0;border-radius:4px;cursor:grab}
-.add-card{margin-top:8px}
-#recipes-list .recipe{border:1px solid #ddd;padding:8px;margin:8px 0}
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg: #f3f4f6;
+    --card-bg: #ffffff;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --danger: #ef4444;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 1.125rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 8px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 32px;
+}
+
+section {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    margin-bottom: 32px;
+}
+
+/* Kanban Styles */
+.board {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.column {
+    flex: 1;
+    background: #f9fafb;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.column h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.cards {
+    min-height: 150px;
+}
+
+.card {
+    background: white;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    border: 1px solid var(--border);
+    cursor: grab;
+    font-size: 0.9375rem;
+    transition: all 0.2s;
+    position: relative;
+    padding-right: 32px;
+}
+
+.card:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border-color: var(--primary);
+}
+
+.card:active {
+    cursor: grabbing;
+    transform: scale(1.02);
+}
+
+.del-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    padding: 4px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    display: none;
+}
+
+.card:hover .del-btn {
+    display: block;
+}
+
+.del-btn:hover {
+    color: var(--danger);
+}
+
+.add-card {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.add-card input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+}
+
+.add-card input:focus {
+    outline: none;
+    border-color: var(--primary);
+    ring: 2px solid var(--primary);
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+/* List sections */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9375rem;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+.del-btn-small {
+    background: transparent;
+    color: var(--text-muted);
+    padding: 2px 6px;
+    font-size: 1rem;
+}
+
+.del-btn-small:hover {
+    color: var(--danger);
+    background: #fee2e2;
+}
+
+/* Recipe section */
+.recipe {
+    background: #fffcf0;
+    border: 1px solid #fde68a;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+.recipe h3 {
+    margin-top: 0;
+    color: #92400e;
+    font-size: 1.125rem;
+    margin-bottom: 12px;
+}
+
+.recipe p {
+    margin: 10px 0;
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+
+.recipe strong {
+    color: #1f2937;
+}
+
+@media (max-width: 1024px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+}
