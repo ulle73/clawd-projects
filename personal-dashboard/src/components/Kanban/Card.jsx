@@ -1,21 +1,21 @@
-import React from 'react';
+import { useState } from 'react'
 
-function Card({ card, columnId, onDragStart, deleteCard }) {
+// Card component - displays a single Kanban card
+function Card({ card, onDelete }) {
   return (
-    <div 
-      className="card"
-      draggable
-      onDragStart={(e) => onDragStart(e, card, columnId)}
-    >
-      {card.text}
-      <button 
-        className="del-btn"
-        onClick={() => deleteCard(columnId, card.id)}
-      >
-        ×
-      </button>
+    <div className="kanban-card" draggable>
+      <div className="card-content">
+        <p>{card.text}</p>
+        <button 
+          className="btn-delete" 
+          onClick={() => onDelete(card.id)}
+          title="Delete card"
+        >
+          ×
+        </button>
+      </div>
     </div>
-  );
+  )
 }
 
-export default Card;
+export default Card

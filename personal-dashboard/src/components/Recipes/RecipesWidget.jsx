@@ -1,51 +1,89 @@
-import React, { useState, useEffect } from 'react';
-import recipesData from '../../data/recipes.json';
+import { useState, useEffect } from 'react'
+import recipesData from '../../data/recipes.json'
 
+// RecipesWidget component - displays 3 daily recipes (no fish, onion, garlic)
 function RecipesWidget() {
-  const [dailyRecipes, setDailyRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([])
+  const [expandedRecipe, setExpandedRecipe] = useState(null)
 
   useEffect(() => {
-    // Filter recipes based on dietary constraints
-    const forbidden = ['fish', 'onion', 'garlic', 'salmon', 'tuna', 'shallot', 'leek'];
+    // Load recipes and filter for dietary constraints
+    const filteredRecipes = recipesData.filter(recipe => {
+      const ingredientsText = recipe.ingredients.join(' ').toLowerCase()
+      // Exclude recipes with fish, onion, or garlic
+      return !ingredientsText.includes('fish') && 
+             !ingredientsText.includes('onion') && 
+             !ingredientsText.includes('garlic')
+    })
     
-    const filtered = recipesData.filter(recipe => {
-      const ingredientsStr = recipe.ingredients.join(' ').toLowerCase();
-      const nameStr = recipe.name.toLowerCase();
-      
-      return !forbidden.some(f => ingredientsStr.includes(f) || nameStr.includes(f));
-    });
+    // Show 3 recipes (all available in our sample data)
+    setRecipes(filteredRecipes.slice(0, 3))
+  }, [])
 
-    // Pick 3 random recipes (or fewer if not enough)
-    const shuffled = [...filtered].sort(() => 0.5 - Math.random());
-    setDailyRecipes(shuffled.slice(0, 3));
-  }, []);
+  const toggleRecipe = (recipeId) => {
+    setExpandedRecipe(expandedRecipe === recipeId ? null : recipeId)
+  }
 
   return (
-    <section id="recipes">
+    <div className="recipes-container">
       <h2>Daily Recipes</h2>
-      <div id="recipes-list">
-        {dailyRecipes.length === 0 ? (
-          <p>No recipes found matching constraints.</p>
-        ) : (
-          dailyRecipes.map(recipe => (
-            <div key={recipe.id} className="recipe">
+      <p className="subtitle">
+        3 healthy recipes per day - No fish, onion, or garlic
+      </p>
+
+      <div className="recipes-list">
+        {recipes.map(recipe => (
+          <div key={recipe.id} className="recipe-card">
+            <div 
+              className="recipe-header"
+              onClick={() => toggleRecipe(recipe.id)}
+            >
               <h3>{recipe.name}</h3>
-              <p><strong>Ingredients:</strong> {recipe.ingredients.join(', ')}</p>
-              <p><strong>Steps:</strong></p>
-              <ul style={{ paddingLeft: '20px', listStyleType: 'decimal' }}>
-                {recipe.steps.map((step, i) => (
-                  <li key={i} style={{ padding: '4px 0', border: 'none' }}>{step}</li>
-                ))}
-              </ul>
-              <p style={{ fontSize: '0.8rem', fontStyle: 'italic', marginTop: '10px' }}>
-                {recipe.nutrition}
-              </p>
+              <button className="btn-expand">
+                {expandedRecipe === recipe.id ? '−' : '+'}
+              </button>
             </div>
-          ))
-        )}
+
+            {expandedRecipe === recipe.id && (
+              <div className="recipe-details">
+                <div className="recipe-section">
+                  <h4>Ingredients:</h4>
+                  <ul>
+                    {recipe.ingredients.map((ingredient, idx) => (
+                      <li key={idx}>{ingredient}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="recipe-section">
+                  <h4>Steps:</h4>
+                  <ol>
+                    {recipe.steps.map((step, idx) => (
+                      <li key={idx}>{step}</li>
+                    ))}
+                  </ol>
+                </div>
+
+                <div className="recipe-meta">
+                  <p className="recipe-note">{recipe.note}</p>
+                  <p className="recipe-nutrition">{recipe.nutrition}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
-    </section>
-  );
+
+      <div className="dietary-info">
+        <h4>Dietary Constraints:</h4>
+        <ul>
+          <li>No fish or seafood</li>
+          <li>No onion</li>
+          <li>No garlic</li>
+        </ul>
+      </div>
+    </div>
+  )
 }
 
-export default RecipesWidget;
+export default RecipesWidget

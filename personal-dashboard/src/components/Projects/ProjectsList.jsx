@@ -1,34 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
-function ProjectsList() {
-  const [projects, setProjects] = useState([]);
-  const [error, setError] = useState(null);
+// ProjectsList component - displays projects from /home/ubuntu/work/clawd-projects
+function ProjectsList({ projects, onUpdate }) {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  useEffect(() => {
-    fetch('/api/projects')
-      .then(res => {
-        if (!res.ok) throw new Error('API not available');
-        return res.json();
-      })
-      .then(data => setProjects(data))
-      .catch(err => {
-        setError('Scan projects unavailable. Run gateway to enable.');
-        // Fallback placeholder
-        setProjects(['personal-dashboard', 'market-bot', 'golf-tracker']);
-      });
-  }, []);
+  const scanProjects = async () => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      // Try to fetch from /api/projects endpoint (if backend is available)
+      const response = await fetch('/api/projects')
+      
+      if (response.ok) {
+        const data = await response.json()
+        onUpdate(data.projects || [])
+      } else {
+        throw new Error('API endpoint not available')
+      }
+    } catch (err) {
+      // Fallback: show placeholder and instruction
+      setError('Projects API endpoint not available. To enable project detection, set up a backend endpoint at /api/projects that lists folders under /home/ubuntu/work/clawd-projects')
+      
+      // Show sample placeholder data
+      const placeholderProjects = [
+        { name: 'personal-dashboard', path: '/home/ubuntu/work/clawd-projects/personal-dashboard', type: 'React App' },
+        { name: 'Sample Project', path: '/home/ubuntu/work/clawd-projects/sample', type: 'Placeholder' }
+      ]
+      onUpdate(placeholderProjects)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
-    <section id="projects">
+    <div className="projects-container">
       <h2>Active Projects</h2>
-      {error && <p style={{ fontSize: '0.8rem', color: '#6b7280' }}>{error}</p>}
-      <ul id="projects-list">
-        {projects.map((proj, i) => (
-          <li key={i}>{proj}</li>
-        ))}
-      </ul>
-    </section>
-  );
+      <p className="subtitle">
+        Projects detected under /home/ubuntu/work/clawd-projects
+      </p>
+
+      <button 
+        onClick={scanProjects} 
+        className="btn-primary"
+        disabled={loading}
+      >
+        {loading ? 'Scanning...' : 'Scan Projects'}
+      </button>
+
+      {error && (
+        <div className="error-message">
+          <p>{error}</p>
+        </div>
+      )}
+
+      <div className="projects-list">
+        {projects.length === 0 ? (
+          <p className="placeholder">Click "Scan Projects" to detect active projects</p>
+        ) : (
+          projects.map((project, index) => (
+            <div key={index} className="project-card">
+              <h3>{project.name}</h3>
+              <p className="project-path">{project.path}</p>
+              {project.type && <span className="project-type">{project.type}</span>}
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  )
 }
 
-export default ProjectsList;
+export default ProjectsList

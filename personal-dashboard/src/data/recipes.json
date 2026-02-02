@@ -2,56 +2,62 @@
   {
     "id": 1,
     "name": "Tomato & Herb Pasta",
-    "ingredients": ["pasta", "tomato", "olive oil", "basil", "salt", "pepper"],
-    "steps": [
-      "Cook pasta according to package instructions.",
-      "Sauté diced tomato in olive oil in a pan (no onion or garlic).",
-      "Toss the cooked pasta with the tomato sauce and fresh basil.",
-      "Season with salt and pepper."
+    "ingredients": [
+      "pasta",
+      "tomato",
+      "olive oil",
+      "basil",
+      "salt",
+      "pepper"
     ],
-    "nutrition": "Approx. 450 kcal, 12g Protein, 70g Carbs",
-    "tags": ["vegetarian", "dairy-free"]
+    "steps": [
+      "Cook pasta according to package instructions",
+      "Sauté diced tomato in olive oil (no onion/garlic)",
+      "Toss cooked pasta with tomato sauce",
+      "Add fresh basil and season with salt and pepper"
+    ],
+    "note": "Vegetarian, no fish/onion/garlic",
+    "nutrition": "Carbs: 60g, Protein: 12g, Fat: 8g"
   },
   {
     "id": 2,
     "name": "Chickpea & Cucumber Salad",
-    "ingredients": ["canned chickpeas", "cucumber", "cherry tomatoes", "olive oil", "lemon juice", "parsley"],
-    "steps": [
-      "Rinse and drain the chickpeas.",
-      "Chop the cucumber and cherry tomatoes.",
-      "Mix all ingredients in a large bowl.",
-      "Dress with olive oil and lemon juice, then sprinkle with parsley."
+    "ingredients": [
+      "canned chickpeas",
+      "cucumber",
+      "cherry tomatoes",
+      "olive oil",
+      "lemon juice",
+      "parsley"
     ],
-    "nutrition": "Approx. 320 kcal, 15g Protein, 40g Carbs",
-    "tags": ["vegan", "gluten-free"]
+    "steps": [
+      "Rinse and drain canned chickpeas",
+      "Chop cucumber and cherry tomatoes",
+      "Mix all vegetables in a bowl",
+      "Dress with lemon juice and olive oil",
+      "Garnish with fresh parsley"
+    ],
+    "note": "Vegetarian, protein-rich, no fish/onion/garlic",
+    "nutrition": "Carbs: 30g, Protein: 15g, Fat: 10g"
   },
   {
     "id": 3,
     "name": "Cheese & Herb Omelette",
-    "ingredients": ["eggs", "milk", "butter", "cheese", "mixed fresh herbs"],
-    "steps": [
-      "Beat eggs with a splash of milk.",
-      "Melt butter in a pan over medium heat.",
-      "Pour in the eggs and cook gently.",
-      "Add cheese and herbs, then fold the omelette once the eggs are set."
+    "ingredients": [
+      "eggs",
+      "milk",
+      "butter",
+      "cheese",
+      "mixed fresh herbs"
     ],
-    "nutrition": "Approx. 380 kcal, 20g Protein, 4g Carbs",
-    "tags": ["vegetarian"]
-  },
-  {
-    "id": 4,
-    "name": "Invalid Recipe (Onion Test)",
-    "ingredients": ["eggs", "onion", "butter"],
-    "steps": ["Should be filtered out"],
-    "nutrition": "N/A",
-    "tags": ["test"]
-  },
-  {
-    "id": 5,
-    "name": "Invalid Recipe (Fish Test)",
-    "ingredients": ["salmon", "lemon", "butter"],
-    "steps": ["Should be filtered out"],
-    "nutrition": "N/A",
-    "tags": ["test"]
+    "steps": [
+      "Beat eggs with milk in a bowl",
+      "Heat butter in a pan over medium heat",
+      "Pour egg mixture and cook gently",
+      "Add cheese and herbs when eggs are nearly set",
+      "Fold omelette in half and serve"
+    ],
+    "note": "High protein, no fish/onion/garlic",
+    "nutrition": "Carbs: 3g, Protein: 20g, Fat: 18g"
   }
 ]

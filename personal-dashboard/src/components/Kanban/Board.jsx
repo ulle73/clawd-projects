@@ -1,71 +1,71 @@
-import React, { useState } from 'react';
-import Column from './Column';
+import { useState } from 'react'
+import Column from './Column'
 
-function Board({ kanban, setKanban }) {
-  const [newCardText, setNewCardText] = useState('');
-
-  const addCard = () => {
-    if (!newCardText.trim()) return;
-    const newCard = { id: Date.now(), text: newCardText };
-    setKanban({
-      ...kanban,
-      todo: [...kanban.todo, newCard]
-    });
-    setNewCardText('');
-  };
-
-  const deleteCard = (columnId, cardId) => {
-    setKanban({
-      ...kanban,
-      [columnId]: kanban[columnId].filter(card => card.id !== cardId)
-    });
-  };
-
-  const onDragStart = (e, card, fromColumn) => {
-    e.dataTransfer.setData('card', JSON.stringify(card));
-    e.dataTransfer.setData('fromColumn', fromColumn);
-  };
-
-  const onDrop = (e, toColumn) => {
-    const card = JSON.parse(e.dataTransfer.getData('card'));
-    const fromColumn = e.dataTransfer.getData('fromColumn');
-
-    if (fromColumn === toColumn) return;
-
-    const newKanban = { ...kanban };
-    newKanban[fromColumn] = newKanban[fromColumn].filter(c => c.id !== card.id);
-    newKanban[toColumn] = [...newKanban[toColumn], card];
+// Board component - main Kanban board container
+function Board({ columns, onUpdate }) {
+  
+  // Add a new card to a column
+  const handleAddCard = (columnId, text) => {
+    const newCard = {
+      id: Date.now().toString(),
+      text: text,
+      createdAt: new Date().toISOString()
+    }
     
-    setKanban(newKanban);
-  };
+    const updatedColumns = { ...columns }
+    updatedColumns[columnId].cards = [...updatedColumns[columnId].cards, newCard]
+    
+    onUpdate({ columns: updatedColumns })
+  }
+
+  // Delete a card from a column
+  const handleDeleteCard = (cardId) => {
+    const updatedColumns = { ...columns }
+    
+    // Find and remove the card from its column
+    Object.keys(updatedColumns).forEach(columnId => {
+      updatedColumns[columnId].cards = updatedColumns[columnId].cards.filter(
+        card => card.id !== cardId
+      )
+    })
+    
+    onUpdate({ columns: updatedColumns })
+  }
+
+  // Handle drag and drop between columns
+  const handleDrop = (cardId, fromColumnId, toColumnId) => {
+    if (fromColumnId === toColumnId) return
+
+    const updatedColumns = { ...columns }
+    
+    // Find the card in the source column
+    const card = updatedColumns[fromColumnId].cards.find(c => c.id === cardId)
+    if (!card) return
+
+    // Remove from source column
+    updatedColumns[fromColumnId].cards = updatedColumns[fromColumnId].cards.filter(
+      c => c.id !== cardId
+    )
+    
+    // Add to destination column
+    updatedColumns[toColumnId].cards = [...updatedColumns[toColumnId].cards, card]
+    
+    onUpdate({ columns: updatedColumns })
+  }
 
   return (
-    <section id="kanban">
-      <h2>Kanban</h2>
-      <div className="board">
-        {Object.keys(kanban).map(columnId => (
-          <Column 
-            key={columnId}
-            id={columnId}
-            title={columnId.charAt(0).toUpperCase() + columnId.slice(1)}
-            cards={kanban[columnId]}
-            onDragStart={onDragStart}
-            onDrop={onDrop}
-            deleteCard={deleteCard}
-          />
-        ))}
-      </div>
-      <div className="add-card">
-        <input 
-          value={newCardText}
-          onChange={(e) => setNewCardText(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && addCard()}
-          placeholder="New task..."
+    <div className="kanban-board">
+      {Object.values(columns).map(column => (
+        <Column
+          key={column.id}
+          column={column}
+          onAddCard={handleAddCard}
+          onDeleteCard={handleDeleteCard}
+          onDrop={handleDrop}
         />
-        <button onClick={addCard}>Add</button>
-      </div>
-    </section>
-  );
+      ))}
+    </div>
+  )
 }
 
-export default Board;
+export default Board
