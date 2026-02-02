@@ -76,7 +76,21 @@ function App() {
     reader.onload = (e) => {
       try {
         const imported = JSON.parse(e.target.result)
-        setState(imported)
+        
+        // Validate imported data structure
+        const validatedState = {
+          kanban: {
+            columns: imported.kanban?.columns || {
+              todo: { id: 'todo', title: 'To Do', cards: [] },
+              doing: { id: 'doing', title: 'Doing', cards: [] },
+              done: { id: 'done', title: 'Done', cards: [] }
+            }
+          },
+          aiJobs: Array.isArray(imported.aiJobs) ? imported.aiJobs : [],
+          projects: Array.isArray(imported.projects) ? imported.projects : []
+        }
+        
+        setState(validatedState)
         alert('State imported successfully!')
       } catch (error) {
         alert('Failed to import state: ' + error.message)
